@@ -1,0 +1,826 @@
+{
+	"info": {
+		"_postman_id": "42a76aeb-762d-4249-815f-c98fa8c20225",
+		"name": "Books_Order_Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26133503"
+	},
+	"item": [
+		{
+			"name": "Get_Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"//status code\r",
+							"pm.test(\"Status code is 200\", ()=> {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//response message\r",
+							"var responseData = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.test(\"Get Status Message\", ()=>{\r",
+							"    pm.expect(responseData.status).to.eql(\"OK\");\r",
+							"})\r",
+							"\r",
+							"// header\r",
+							"pm.test(\"Status Headers validation\",()=>{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json; charset=utf-8\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"// data type test\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status Data type test\",()=>{\r",
+							"    pm.expect(jsonData.status).to.be.a(\"string\");\r",
+							"})\r",
+							"\r",
+							"//json schema validate\r",
+							"\r",
+							"var schema ={\r",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"status\": {\r",
+							"      \"type\": \"string\"\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"status\"\r",
+							"  ]\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Status Json Schema Test\", ()=>{\r",
+							"    pm.expect(tv4.validate(jsonData,schema)).to.be.true;\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//set base url\r",
+							"pm.environment.set(\"Base_Url\", \"https://simple-books-api.glitch.me\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/status",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_List_of_Books",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//status code\r",
+							"pm.test(\"List_Books code is 200\", ()=> {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// header\r",
+							"pm.test(\"Book_List Headers validation\",()=>{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json; charset=utf-8\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"// // data type test\r",
+							" var jsonData = pm.response.json();\r",
+							"pm.test(\"Book_List Data type test\",()=>{\r",
+							"    pm.expect(jsonData[0].id).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData[0].name).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData[0].available).to.be.a(\"boolean\");\r",
+							"})\r",
+							"\r",
+							"//json schema validate\r",
+							"\r",
+							"var schema ={\r",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"array\",\r",
+							"  \"items\": [\r",
+							"    {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"id\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"name\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"type\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"available\": {\r",
+							"          \"type\": \"boolean\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"id\",\r",
+							"        \"name\",\r",
+							"        \"type\",\r",
+							"        \"available\"\r",
+							"      ]\r",
+							"    },\r",
+							"    {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"id\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"name\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"type\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"available\": {\r",
+							"          \"type\": \"boolean\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"id\",\r",
+							"        \"name\",\r",
+							"        \"type\",\r",
+							"        \"available\"\r",
+							"      ]\r",
+							"    },\r",
+							"    {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"id\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"name\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"type\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"available\": {\r",
+							"          \"type\": \"boolean\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"id\",\r",
+							"        \"name\",\r",
+							"        \"type\",\r",
+							"        \"available\"\r",
+							"      ]\r",
+							"    },\r",
+							"    {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"id\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"name\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"type\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"available\": {\r",
+							"          \"type\": \"boolean\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"id\",\r",
+							"        \"name\",\r",
+							"        \"type\",\r",
+							"        \"available\"\r",
+							"      ]\r",
+							"    },\r",
+							"    {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"id\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"name\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"type\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"available\": {\r",
+							"          \"type\": \"boolean\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"id\",\r",
+							"        \"name\",\r",
+							"        \"type\",\r",
+							"        \"available\"\r",
+							"      ]\r",
+							"    },\r",
+							"    {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"id\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"name\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"type\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"available\": {\r",
+							"          \"type\": \"boolean\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"id\",\r",
+							"        \"name\",\r",
+							"        \"type\",\r",
+							"        \"available\"\r",
+							"      ]\r",
+							"    }\r",
+							"  ]\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Books_List Json Schema Test\", ()=>{\r",
+							"    pm.expect(tv4.validate(jsonData,schema)).to.be.true;\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/books",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Single_Book",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//create random books id 1 to 6\r",
+							"var book_Id = Math.floor(Math.random()*6)+1;\r",
+							"pm.environment.set(\"b_Id\", book_Id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//status code\r",
+							"pm.test(\"Single Books code is 200\", ()=> {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// header\r",
+							"pm.test(\"Single Book Headers validation\",()=>{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json; charset=utf-8\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"// data type test\r",
+							" var jsonData = pm.response.json();\r",
+							"pm.test(\"Single Book Data type test\",()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.name).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.author).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.price).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.available).to.be.a(\"boolean\");\r",
+							"})\r",
+							"\r",
+							"//json schema validate\r",
+							"\r",
+							"var schema ={\r",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"id\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"name\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"author\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"type\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"price\": {\r",
+							"      \"type\": \"number\"\r",
+							"    },\r",
+							"    \"current-stock\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"available\": {\r",
+							"      \"type\": \"boolean\"\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"id\",\r",
+							"    \"name\",\r",
+							"    \"author\",\r",
+							"    \"type\",\r",
+							"    \"price\",\r",
+							"    \"current-stock\",\r",
+							"    \"available\"\r",
+							"  ]\r",
+							"}\r",
+							"\r",
+							"\r",
+							"pm.test(\"Books_List Json Schema Test\", ()=>{\r",
+							"    pm.expect(tv4.validate(jsonData,schema)).to.be.true;\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/books/{{b_Id}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"books",
+						"{{b_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post_Submit_Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//get an order id\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.environment.set(\"orderId\",jsonData.orderId);\r",
+							"\r",
+							"\r",
+							"//status code\r",
+							"pm.test(\"Create Order Status code is 201\", ()=> {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// data type\r",
+							"pm.test(\"Create Orders Data type test\",()=>{\r",
+							"    pm.expect(jsonData.created).to.be.a(\"boolean\");\r",
+							"})\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "771f55dc2e1831c73ddd5dedd190bc8f7de2998343b60c70331e2519fee8bb30",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"bookId\": {{bookId}},\r\n  \"customerName\": \"{{customerName}}\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_Url}}/orders",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_All_Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//status code\r",
+							"pm.test(\"All Order status code is 200\", ()=> {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// header\r",
+							"pm.test(\"All Order Headers validation\",()=>{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json; charset=utf-8\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"// data type test\r",
+							" var jsonData = pm.response.json();\r",
+							"pm.test(\"All Order Data type test\",()=>{\r",
+							"    pm.expect(jsonData[0].id).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData[0].bookId).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData[0].quantity).to.be.a(\"number\");\r",
+							"})\r",
+							"\r",
+							"//schema validation\r",
+							"var schema={\r",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"array\",\r",
+							"  \"items\": [\r",
+							"    {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"id\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"bookId\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"customerName\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"createdBy\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"quantity\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"timestamp\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"id\",\r",
+							"        \"bookId\",\r",
+							"        \"customerName\",\r",
+							"        \"createdBy\",\r",
+							"        \"quantity\",\r",
+							"        \"timestamp\"\r",
+							"      ]\r",
+							"    },\r",
+							"    {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"id\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"bookId\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"customerName\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"createdBy\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"quantity\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"timestamp\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"id\",\r",
+							"        \"bookId\",\r",
+							"        \"customerName\",\r",
+							"        \"createdBy\",\r",
+							"        \"quantity\",\r",
+							"        \"timestamp\"\r",
+							"      ]\r",
+							"    },\r",
+							"    {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"id\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"bookId\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"customerName\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"createdBy\": {\r",
+							"          \"type\": \"string\"\r",
+							"        },\r",
+							"        \"quantity\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"timestamp\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"id\",\r",
+							"        \"bookId\",\r",
+							"        \"customerName\",\r",
+							"        \"createdBy\",\r",
+							"        \"quantity\",\r",
+							"        \"timestamp\"\r",
+							"      ]\r",
+							"    }\r",
+							"  ]\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Books_List Json Schema Test\", ()=>{\r",
+							"    pm.expect(tv4.validate(jsonData,schema)).to.be.true;\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "771f55dc2e1831c73ddd5dedd190bc8f7de2998343b60c70331e2519fee8bb30",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/orders",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch_Update_Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//status code\r",
+							"pm.test(\"Update Customer status code is 204\", ()=> {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "771f55dc2e1831c73ddd5dedd190bc8f7de2998343b60c70331e2519fee8bb30",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerName\": \"{{customerName}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_Url}}/orders/{{orderId}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"orders",
+						"{{orderId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Single_Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//status code\r",
+							"pm.test(\"Single Order status code is 200\", ()=> {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// header\r",
+							"pm.test(\"Single Order Headers validation\",()=>{\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json; charset=utf-8\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"// data type test\r",
+							" var jsonData = JSON.parse(responseBody);\r",
+							"pm.test(\"Single Order Data type test\",()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.bookId).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.quantity).to.be.a(\"number\");\r",
+							"})\r",
+							"\r",
+							"//schema validation\r",
+							"var schema={\r",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"id\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"bookId\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"customerName\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"createdBy\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"quantity\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"timestamp\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"id\",\r",
+							"    \"bookId\",\r",
+							"    \"customerName\",\r",
+							"    \"createdBy\",\r",
+							"    \"quantity\",\r",
+							"    \"timestamp\"\r",
+							"  ]\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Single Order Json Schema Test\", ()=>{\r",
+							"    pm.expect(tv4.validate(jsonData,schema)).to.be.true;\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "771f55dc2e1831c73ddd5dedd190bc8f7de2998343b60c70331e2519fee8bb30",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}/orders/{{orderId}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"orders",
+						"{{orderId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Single_Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//status code\r",
+							"pm.test(\"Status code is 204\", ()=> {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "771f55dc2e1831c73ddd5dedd190bc8f7de2998343b60c70331e2519fee8bb30",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}//orders/{{orderId}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"",
+						"orders",
+						"{{orderId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
