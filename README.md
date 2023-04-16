@@ -26,8 +26,8 @@
 ## Technology used:
 
 
-- Jdk
 - Node Js
+- NPM
 - Newman
 - Html Report Library
 
